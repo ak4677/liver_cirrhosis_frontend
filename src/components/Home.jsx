@@ -12,7 +12,7 @@ export default function Home() {
           <button onClick={()=>Navigate("/Login")}>
             login
           </button>
-          <button className="">
+          <button onClick={()=>Navigate("/Labentry")}>
             sign up
           </button>
         </div>
