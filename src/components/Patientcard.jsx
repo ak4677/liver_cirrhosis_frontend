@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import PatientContext from './PatientContext';
 
-export default function Patientcard() {
+export default function Patientcard(props) {
     const navigator = useNavigate()
     return (
         <div onClick={()=>navigator("/Patides")}>
@@ -12,8 +13,8 @@ export default function Patientcard() {
                         <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-orange-600 dark:text-orange-500" strokeWidth="1" strokeDasharray="25 100" strokeLinecap="round"></circle>
                     </svg>
                     <div className="absolute top-9 start-1/2 transform -translate-x-1/2 text-center">
-                        <span className="text-2xl font-bold text-orange-600 dark:text-orange-500">50</span>
-                        <span className="text-xs text-orange-600 dark:text-orange-500 block">Average</span>
+                        <span className="text-2xl font-bold text-orange-600 dark:text-orange-500">{props.patient.Age}</span>
+                        <span className="text-xs text-orange-600 dark:text-orange-500 block">{props.patient.name}</span>
                     </div>
                 </div>
                 <a >

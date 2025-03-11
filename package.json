@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"npm run dev\" \"nodemon ../liver_cirrhosis_backend/index.js\"",
+    "start": "concurrently \"npm run dev\" \"npm run backend\"",
+    "backend": "nodemon --watch ../liver_cirrhosis_backend/ ../liver_cirrhosis_backend/index.js",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
