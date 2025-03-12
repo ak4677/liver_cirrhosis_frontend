@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PatientContext from './PatientContext';
+import PatientContext from '../context/info/PatientContext';
 
 export default function Patientcard(props) {
     const navigator = useNavigate()

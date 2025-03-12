@@ -3,10 +3,11 @@ import Navbar from './components/Navbar'
 import Home from './components/Home'
 import Login from './components/Login'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Patides from './components/Patides'
-import Labentry from './components/Labentry'
-import DataFetch from './components/DataFetch'
-import Docdes from './components/Docdes'
+import Patides from './components/patient/Patides'
+import Labentry from './components/lab/Labentry'
+import DataFetch from './context/info/DataFetch'
+import Docdes from './components/doctor/Docdes'
+import Info from './components/Info'
 function App() {
 
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/Docdes" element={<Docdes />} />
           <Route path="/Patides" element={<Patides />} />
           <Route path="/Labentry" element={<Labentry />} />
+          <Route path="/Info" element={<Info />} />
         </Routes>
       </BrowserRouter>
     </DataFetch>

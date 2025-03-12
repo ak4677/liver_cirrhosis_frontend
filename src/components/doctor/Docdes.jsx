@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from 'react'
-import Patientcard from './Patientcard'
-import PatientContext from './PatientContext';
+import Patientcard from '../Patientcard'
+import PatientContext from '../../context/info/PatientContext';
 export default function Docdes() {
     const fetching=useContext(PatientContext)
     const {fetchdata,doclogin}=fetching;
     useEffect(()=>{
         fetchdata();
-        doclogin();
     },[])
     const {patientdata}=fetching
     return (
