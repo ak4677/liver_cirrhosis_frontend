@@ -7,13 +7,14 @@ export default function DataFetch(props) {
     const intial = []
     const [patientdata, Setpatinetdata] = useState(intial)
     const [logininfo,setlogininfo]=useState({})
+    const [role,setrole]=useState({})
     //patient data fetching
     const fetchdata = async () => {
-        const response = await fetch("http://localhost:5000/api/datatras/patientdata", {
+        const response = await fetch("http://localhost:5000/api/datatras/assignments", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkb2N0b3IiOnsiaWQiOiI2N2NjOTNmNjk3Mjk5YzJkZGJjZTU4YmIifSwiaWF0IjoxNzQxNDYwNDcwfQ.coMx6UrIwGYDmlU9O7ejSoaxrzZHm1A70NyJHn-2_94",
+                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDg1MTI4NWQ4Y2UyN2JkNDg0OTI2MSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MjIzNjEyN30.wg0ycv5T1mm8U9nqXUitdvwIxx2rySXOL0jlin9I0mA",
             }
         })
         const data = await response.json();
@@ -21,25 +22,35 @@ export default function DataFetch(props) {
         Setpatinetdata(data)
     }
     
-    //doctor login
+    //doctor's info after login
     const doclogin = async () => {
         const response = await fetch("http://localhost:5000/api/auth/getdoc", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkb2N0b3IiOnsiaWQiOiI2N2NjOTNmNjk3Mjk5YzJkZGJjZTU4YmIifSwiaWF0IjoxNzQxNDYwNDcwfQ.coMx6UrIwGYDmlU9O7ejSoaxrzZHm1A70NyJHn-2_94",
+                "auth-token": localStorage.getItem('token'),
             }
         })
-        const data1 = await response.json();
-        // console.log(data1);
-        if(data1){
-            
-        setlogininfo({...data1})
-        }
+        const data = await response.json();
+        setlogininfo(data)
+    }
+
+    //login into the system
+    const login = async () => {
+        const response = await fetch("http://localhost:5000/api/datatras/getinfo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem('token')
+                // "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Y2M5M2Y2OTcyOTljMmRkYmNlNThiYiIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE3NDIyMzMxNTIsImV4cCI6MTc0MjIzNjc1Mn0.-87ZombJ3U4KvkeZFAIQ5XtRZSWfcX4I5tKzfL7s8-0",
+            }
+        })
+        const data = await response.json();
+        setlogininfo(data)
     }
 
     return (
-        <PatientContext.Provider value={{patientdata,logininfo,fetchdata,doclogin}}>
+        <PatientContext.Provider value={{patientdata,logininfo,fetchdata,login}}>
             {props.children}
         </PatientContext.Provider>
     )

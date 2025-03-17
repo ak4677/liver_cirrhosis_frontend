@@ -9,7 +9,7 @@ export default function Navbar() {
                 <div className="flex justify-between text-white">
                     <h1 className='text-2xl'>Liver Cirrhosis Prediction Tool</h1>
                     <div className=' text-2xl flex gap-9.5'>
-                        <i className="fa-regular fa-circle-user place-content-center" onClick={()=>navigator("/Info")}></i>
+                        <i className="fa-regular fa-circle-user place-content-center cursor-pointer" onClick={()=>navigator("/Info")}></i>
                         <Link to={"/Home"}>Home</Link>
                         <Link to={"/patides"}>Contect us</Link>
                     </div>
