@@ -8,6 +8,7 @@ import Labentry from './components/lab/Labentry'
 import DataFetch from './context/info/DataFetch'
 import Docdes from './components/doctor/Docdes'
 import Info from './components/Info'
+import Admindes from './components/admin/Admindes'
 function App() {
 
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/Patides" element={<Patides />} />
           <Route path="/Labentry" element={<Labentry />} />
           <Route path="/Info" element={<Info />} />
+          <Route path="/Admindes" element={<Admindes />} />
         </Routes>
       </BrowserRouter>
     </DataFetch>

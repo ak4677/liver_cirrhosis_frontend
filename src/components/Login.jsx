@@ -5,7 +5,7 @@ import PatientContext from '../context/info/PatientContext';
 export default function Login() {
     const navigator = useNavigate()
     const fetching=useContext(PatientContext)
-    const {login}=fetching;
+    const {info}=fetching;
     const [credential, setCredential] = useState({ email: "", password: "" })
     const navigation=()=>{
         let x=localStorage.getItem('role').toLowerCase()
@@ -13,6 +13,7 @@ export default function Login() {
                 navigator("/Docdes");
             }
             else if(x==='admin'){
+                localStorage.setItem('fetch','assignments')
                 navigator("/Admindes")
             }
             else if(x==='patient'){
@@ -39,7 +40,8 @@ export default function Login() {
             const data=await response.json();
             localStorage.setItem('token',data)
             if (localStorage.getItem('token')) {
-                login();
+                console.log("info function called")
+                info();
             } else {
                 navigator("/Login");
             }
