@@ -19,7 +19,7 @@ export default function Login() {
             else if(x==='patient'){
                 navigator("/Patides")
             }
-            else if(x==='assistante'){
+            else if(x==='labassistant'){
                 navigator("/Labentry")
             }
             else{
@@ -30,7 +30,7 @@ export default function Login() {
         e.preventDefault();
         try {
             console.log(localStorage.getItem('role'))
-            const response = await fetch("http://localhost:5000/api/auth/doclogin", {
+            const response = await fetch("http://localhost:5000/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
