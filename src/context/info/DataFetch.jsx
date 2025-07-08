@@ -8,7 +8,8 @@ export default function DataFetch(props) {
     const [patientdata, Setpatinetdata] = useState(intial)
     const [logininfo,setlogininfo]=useState({})
     const [assignments,setassignments]=useState(intial)
-
+    const [Doctors,setDoctors]=useState(intial)
+    const [Patients,setPatients]=useState(intial)
 
     //patient data fetching
     const fetchdata = async () => {
@@ -82,8 +83,32 @@ export default function DataFetch(props) {
         // setassignments(data)
     }
 
+    //ge all doctors after login 
+    const getdoctors=async()=>{
+        const response=await fetch("http://localhost:5000/api/datatras//admin/doctors",{
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            }
+        })
+        const data=await response.json()
+        setDoctors(data);
+    }
+
+    const getpatients=async()=>{
+        const response=await fetch("http://localhost:5000/api/datatras//admin/patients",{
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            }
+        })
+        const data=await response.json()
+        setPatients(data);
+    }
     return (
-        <PatientContext.Provider value={{patientdata,logininfo,assignments,fetchdata,info,fetchassignment,createassignment}}>
+        <PatientContext.Provider value={{patientdata,logininfo,assignments,Doctors,Patients,fetchdata,info,fetchassignment,createassignment,getdoctors,getpatients}}>
             {props.children}
         </PatientContext.Provider>
     )
