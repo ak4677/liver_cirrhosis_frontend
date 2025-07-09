@@ -10,7 +10,7 @@ export default function DataFetch(props) {
     const [assignments,setassignments]=useState(intial)
     const [Doctors,setDoctors]=useState(intial)
     const [Patients,setPatients]=useState(intial)
-
+    const [Assistent,setAssistent]=useState(intial)
     //patient data fetching
     const fetchdata = async () => {
         const response = await fetch("http://localhost:5000/api/datatras/doctor/patients", {
@@ -69,14 +69,15 @@ export default function DataFetch(props) {
     }
 
     //cleate all assignments of the admin
-    const createassignment=async()=>{
+    const createassignment=async(doctor_id,patient_id)=>{
         const response = await fetch("http://localhost:5000/api/datatras/assignments", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "auth-token": localStorage.getItem('token')
                 // "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Y2M5M2Y2OTcyOTljMmRkYmNlNThiYiIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE3NDIyMzMxNTIsImV4cCI6MTc0MjIzNjc1Mn0.-87ZombJ3U4KvkeZFAIQ5XtRZSWfcX4I5tKzfL7s8-0",
-            }
+            },
+            body:JSON.stringify({ doctor_id, patient_id})
         })
         const data = await response.json();
         // console.log(data)
@@ -93,6 +94,7 @@ export default function DataFetch(props) {
             }
         })
         const data=await response.json()
+        // console.log("doctor"+data);
         setDoctors(data);
     }
 
@@ -105,10 +107,29 @@ export default function DataFetch(props) {
             }
         })
         const data=await response.json()
+        // console.log("patient"+data);
         setPatients(data);
     }
+    const getlabassistant=async()=>{
+        const response=await fetch("http://localhost:5000/api/datatras//admin/Assistant",{
+            method: "GET",
+            headers:{
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            }
+        })
+        const data=await response.json()
+        // console.log("assi"+data);
+        setAssistent(data);
+    }
+    // const createdoctor=async()=>{
+
+    // }
+    // const createpatient=async()=>{
+
+    // }
     return (
-        <PatientContext.Provider value={{patientdata,logininfo,assignments,Doctors,Patients,fetchdata,info,fetchassignment,createassignment,getdoctors,getpatients}}>
+        <PatientContext.Provider value={{patientdata,logininfo,assignments,Doctors,Patients,Assistent,fetchdata,info,fetchassignment,createassignment,getdoctors,getpatients,getlabassistant}}>
             {props.children}
         </PatientContext.Provider>
     )

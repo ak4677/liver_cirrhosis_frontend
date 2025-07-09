@@ -39,17 +39,11 @@ export default function Login() {
             });
             const data=await response.json();
             localStorage.setItem('token',data)
-            if (localStorage.getItem('token')) {
-                console.log("info function called")
-                info();
-            } else {
-                navigator("/Login");
-            }
             
             navigation()
 
         } catch (error) {
-            // showalerts("danger", `worange credentials`)
+            alert("wrong credential")
         }
 
     }
