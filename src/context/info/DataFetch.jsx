@@ -98,6 +98,7 @@ export default function DataFetch(props) {
         setDoctors(data);
     }
 
+    //get all the patients
     const getpatients=async()=>{
         const response=await fetch("http://localhost:5000/api/datatras//admin/patients",{
             method: "GET",
@@ -110,6 +111,7 @@ export default function DataFetch(props) {
         // console.log("patient"+data);
         setPatients(data);
     }
+    //get all lab_assitant
     const getlabassistant=async()=>{
         const response=await fetch("http://localhost:5000/api/datatras//admin/Assistant",{
             method: "GET",
@@ -122,14 +124,54 @@ export default function DataFetch(props) {
         // console.log("assi"+data);
         setAssistent(data);
     }
-    // const createdoctor=async()=>{
 
-    // }
-    // const createpatient=async()=>{
+    //create new doctor
+    const createdoctor=async(name,email,Number)=>{
+        const response=await fetch("http://localhost:5000/api/auth/createdoc",{
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            },
+            body:JSON.stringify({name,email,Number})
+        })
+        const data=await response.json()
+        alert(data.message)
+        // console.log("assi"+data);
+    }
 
-    // }
+    //create new patient
+    const createPatient=async(name,email,Number,Age,sex)=>{
+        const response=await fetch("http://localhost:5000/api/auth/addpatient",{
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            },
+            body:JSON.stringify({name,email,Number,Age,sex})
+        })
+        const data=await response.json()
+        alert(data.message)
+        // console.log("assi"+data);
+    }
+
+    //create new lab_assistant
+    const createlab_assistant=async(name,email,Number,lab_name)=>{
+        const response=await fetch("http://localhost:5000/api/auth/createlabassis",{
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            },
+            body:JSON.stringify({name,email,Number,lab_name})
+        })
+        const data=await response.json()
+        alert(data.message)
+        // console.log("assi"+data);
+    }
     return (
-        <PatientContext.Provider value={{patientdata,logininfo,assignments,Doctors,Patients,Assistent,fetchdata,info,fetchassignment,createassignment,getdoctors,getpatients,getlabassistant}}>
+        <PatientContext.Provider value={{patientdata,logininfo,assignments,Doctors,Patients,Assistent,
+        fetchdata,info,fetchassignment,createassignment,getdoctors,getpatients,getlabassistant,createdoctor,createlab_assistant,createPatient}}>
             {props.children}
         </PatientContext.Provider>
     )
