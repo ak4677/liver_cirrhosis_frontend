@@ -9,6 +9,7 @@ import DataFetch from './context/info/DataFetch'
 import Docdes from './components/doctor/Docdes'
 import Info from './components/Info'
 import Admindes from './components/admin/Admindes'
+import Signup from './components/Signup'
 function App() {
 
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/Login" element={<Login />} />
+          <Route path="/Signup" element={<Signup />} />
           <Route path="/Docdes" element={<Docdes />} />
           <Route path="/Patides" element={<Patides />} />
           <Route path="/Labentry" element={<Labentry />} />
