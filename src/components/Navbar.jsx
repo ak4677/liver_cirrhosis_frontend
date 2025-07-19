@@ -23,7 +23,7 @@ export default function Navbar() {
             else if (x === 'patient') {
                 navigator("/Patides")
             }
-            else if (x === 'labassistant') {
+            else if (x === 'lab_assistant') {
                 navigator("/Labentry")
             }
             else {

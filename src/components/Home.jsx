@@ -23,7 +23,7 @@ export default function Home() {
           <button onClick={()=>{localStorage.setItem('role',"Patient");Navigate("/Login")}}>
             Patient
           </button>
-          <button onClick={()=>{localStorage.setItem('role',"labassistant");Navigate("/Login")}}>
+          <button onClick={()=>{localStorage.setItem('role',"lab_assistant");Navigate("/Login")}}>
             Lab assistante 
           </button>
         </div>

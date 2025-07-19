@@ -21,6 +21,7 @@ function AddPatient(props) {
             // console.log(newPatient.Doctor);
             createPatient(newPatient.name, newPatient.email, newPatient.number,newPatient.age,newPatient.sex);
             setNewPatient({ name: "", email: "", number: "", age: "", sex: "" });
+            props.onClose();
         } else {
             // e.preventDefault();
             alert("fill the data")

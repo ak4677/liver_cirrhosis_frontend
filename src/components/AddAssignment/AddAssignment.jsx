@@ -28,6 +28,7 @@ function AddAssignment(props) {
             // console.log(newass.Doctor);
             createassignment(newass.Doctor, newass.Patient);
             setNewass({ Doctor: "", Patient: "" });
+            props.onClose();
         } else {
             // e.preventDefault();
             alert("choose properly")

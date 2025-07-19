@@ -21,6 +21,7 @@ function AddLab_assistant(props) {
             // console.log(newassistant.Doctor);
             createlab_assistant(newassistant.name, newassistant.email, newassistant.number, newassistant.lab_name);
             setNewassistant({ name: "", email: "", number: "", lab_name: ""});
+            props.onClose();
         } else {
             // e.preventDefault();
             alert("fill the data")

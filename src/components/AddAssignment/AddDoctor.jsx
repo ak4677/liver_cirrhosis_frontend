@@ -3,8 +3,8 @@ import PatientContext from '../../context/info/PatientContext';
 import { useNavigate } from 'react-router-dom';
 
 function AddDoctor(props) {
-  const navigate=useNavigate()
-  const [newDoc, setNewDoc] = useState({ name: "", email: "" ,number: ""})
+  const navigate = useNavigate()
+  const [newDoc, setNewDoc] = useState({ name: "", email: "", number: "" })
   const creatingdoctor = useContext(PatientContext);
   const { createdoctor } = creatingdoctor
   useEffect(() => {
@@ -15,10 +15,11 @@ function AddDoctor(props) {
   }, []);
   const add = (e) => {
     e.preventDefault();
-    if (newDoc.email && newDoc.number&&newDoc.name) {
+    if (newDoc.email && newDoc.number && newDoc.name) {
       // console.log(newDoc.Doctor);
       createdoctor(newDoc.name, newDoc.email, newDoc.number);
-      setNewDoc({ name: "", email: "" ,number: ""});
+      setNewDoc({ name: "", email: "", number: "" });
+      props.onClose();
     } else {
       // e.preventDefault();
       alert("fill the data")
