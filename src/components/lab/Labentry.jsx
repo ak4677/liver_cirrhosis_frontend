@@ -1,29 +1,31 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Patientcard from '../Patientcard';
 import PatientContext from '../../context/info/PatientContext';
+import Labpatients from './labpatients';
 
 export default function Labentry() {
   const navigator = useNavigate();
-  // const fetching = useContext(PatientContext)
-  // const { fetchdata } = fetching;
-  // useEffect(() => {
-  //   fetchdata();
-  // }, [])
-  // const { patientdata } = fetching
+  const fetching = useContext(PatientContext)
+  const { labassi_get_pati } = fetching
+  useEffect(() => {
+    labassi_get_pati();
+  }, [])
+  const { labassi_pati } = fetching
   return (
-    <div className='grid h-56 grid-cols-3 content-center gap-4 justify-items-center w-full top-55 relative'>
-      <div className='grid content-center w-sm justify-items-center text-white text-4xl cursor-pointer p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700' onClick={() => { navigator("/Patides") }}>
-        <a>Add patinet</a>
-      </div>
-      {/* {patientdata.map((patient) => {
-        return (<div key={patient._id}><Patientcard patient={patient}></Patientcard></div>);
-      })} */}
-    </div>
-  )
-  // return (
-  //   <div className='grid h-56 grid-cols-3 content-center gap-4 justify-items-center w-full min-h-[calc(100vh-64px)] relative p-15 ' onClick={()=>{navigator("/Patides")}}>
+    <>
+      <div className="min-h-screen bg-gray-100 p-6">
+        <h1 className="text-3xl font-bold mb-6 text-gray-800">Assigned Patients</h1>
 
-  //   </div >
-  // )
+        {labassi_pati.length === 0 ? (
+          <p className="text-gray-500 text-lg">No patients assigned yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {labassi_pati.map((patient) => (
+              <Labpatients key={patient._id} patient={patient} />
+            ))}
+          </div>
+        )}
+      </div>
+    </>
+  )
 }

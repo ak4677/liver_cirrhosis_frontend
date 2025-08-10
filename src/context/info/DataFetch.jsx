@@ -11,6 +11,9 @@ export default function DataFetch(props) {
     const [Doctors, setDoctors] = useState(intial)
     const [Patients, setPatients] = useState(intial)
     const [Assistent, setAssistent] = useState(intial)
+    const [doc_assistent, setdoc_assistent] = useState(intial)
+    const [pati_assi_lab, setpati_assi_lab] = useState(intial)
+    const [labassi_pati,setlabassi_pati]=useState(intial);
     //patient data fetching
     const fetchdata = async () => {
         const response = await fetch("http://localhost:5000/api/datatras/doctor/patients", {
@@ -207,10 +210,74 @@ export default function DataFetch(props) {
             alert(data.error || "Server fetching issue in role");
         }
     }
+
+    const doc_create_assig=async (patient,lab_assistant)=>{
+        const response=await fetch("http://localhost:5000/api/datatras/doctor/assign-lab" ,{
+            method: "POST",
+            headers:{
+                "Content-type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            },
+            body:JSON.stringify({patient,lab_assistant})
+        })
+        const data=await response.json();
+        if(response.ok){
+            alert(data.message)
+        }else{
+            alert(data)
+        }
+    }
+    const doc_get_assis=async ()=>{
+        const response=await fetch("http://localhost:5000/api/datatras/doctor/lab_assigned",{
+            method: "GET",
+            headers:{
+                "Content-type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            }
+        })
+        const data=await response.json()
+        if(response.ok){
+            setpati_assi_lab(data);
+        }else{
+            alert(data);
+        }
+    }
+    const doc_get_assistant=async()=>{
+        const response=await fetch("http://localhost:5000/api/datatras/doctor/Assistant",{
+            method: "GET",
+            headers:{
+                "Content-type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            }
+        })
+        const data=await response.json()
+        if(response.ok){
+            setdoc_assistent(data);
+        }else{
+            alert(data);
+        }
+    }
+    const labassi_get_pati=async()=>{
+        const response=await fetch("http://localhost:5000/api/datatras/lab_assistant/patients",{
+            method: "GET",
+            headers:{
+                "Content-type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            }
+        })
+        const data=await response.json();
+        if(response.ok){
+            setlabassi_pati(data);
+        }else{
+            alert(data);
+        }
+    }
     return (
         <PatientContext.Provider value={{
-            patientdata, logininfo, assignments, Doctors, Patients, Assistent,
-            fetchdata, info, fetchassignment, createassignment, getdoctors, getpatients, getlabassistant, createdoctor, createlab_assistant, createPatient, deleteassignment, deleterole
+            patientdata, logininfo, assignments, Doctors, Patients, Assistent, doc_assistent,pati_assi_lab,labassi_pati,
+            fetchdata, info, fetchassignment, createassignment, getdoctors, getpatients,
+            getlabassistant, createdoctor, createlab_assistant, createPatient, deleteassignment, 
+            deleterole, doc_create_assig, doc_get_assis, labassi_get_pati
         }}>
             {props.children}
         </PatientContext.Provider>
