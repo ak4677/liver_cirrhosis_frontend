@@ -4,13 +4,14 @@ import PatientContext from '../../context/info/PatientContext';
 import { useState } from 'react';
 export default function Docdes() {
     const fetching = useContext(PatientContext)
-    const { fetchdata, doc_create_assig, doc_get_assis } = fetching;
+    const { fetchdata, doc_create_assig, doc_get_assis, doc_get_assistant,doc_delete_assig } = fetching;
     // const [newPatient, setNewPatient] = useState({ name: "", age: "", condition: "" });
     const [active, setActive] = useState("get_assignment");
     const [form, setForm] = useState({ pati: "", lab_assi: "" });
     useEffect(() => {
         fetchdata();
         doc_get_assis();
+        doc_get_assistant();
     }, [])
 
 
@@ -26,8 +27,8 @@ export default function Docdes() {
         }
         setActive("get_assignment");
     };
-
     const { patientdata, doc_assistent, pati_assi_lab } = fetching
+    // console.log(doc_assistent)
     return (
         <div className="flex min-h-screen bg-gray-100">
             {/* Sidebar */}
@@ -66,16 +67,23 @@ export default function Docdes() {
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {pati_assi_lab.map((a, index) => (
-                                    <div key={index} className="border p-4 rounded shadow bg-white">
-                                        <h3 className="font-semibold text-lg mb-2">{a.title}</h3>
-                                        <p className="text-gray-600 mb-4">{a.description}</p>
-
-                                        <div className="text-sm text-gray-700 space-y-1">
-                                            <p><span className="font-semibold">Doctor:</span> {a.doctor_id?.name || "N/A"}</p>
-                                            <p><span className="font-semibold">Patient:</span> {a.patient_id?.name || "N/A"}</p>
-                                            <p><span className="font-semibold">Lab Assistant:</span> {a.lab_assistant?.name || "N/A"}</p>
+                                    <div key={index} className="border p-4 rounded shadow bg-white flex justify-between items-start">
+                                        <div>
+                                            <div className="text-sm text-gray-700 space-y-1">
+                                                <p><span className="font-semibold">Doctor:</span> {a.doctor_id?.name || "N/A"}</p>
+                                                <p><span className="font-semibold">Patient:</span> {a.patient_id?.name || "N/A"}</p>
+                                                <p><span className="font-semibold">Lab Assistant:</span> {a.lab_assistant?.name || "N/A"}</p>
+                                            </div>
                                         </div>
+
+                                        <button
+                                            onClick={() => doc_delete_assig(a._id)}
+                                            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded h-fit"
+                                        >
+                                            Delete
+                                        </button>
                                     </div>
+
                                 ))}
                             </div>
                         )}

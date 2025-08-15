@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 function Labpatients({ patient }) {
     const p = patient?.patient_id || {};
-    const { dummy } = useContext(PatientContext); // get dummy from context
+    const { upload_patient_data } = useContext(PatientContext); // get dummy from context
 
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ function Labpatients({ patient }) {
         platelets: "",
         prothrombin: ""
     });
-
+    // console.log(formData.patient)
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -34,7 +34,7 @@ function Labpatients({ patient }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dummy(patient._id, formData); // call dummy with patient ID and form data
+        upload_patient_data(formData); // call dummy with patient ID and form data
         setIsFormOpen(false);
     };
 

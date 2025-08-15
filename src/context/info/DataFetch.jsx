@@ -25,22 +25,22 @@ export default function DataFetch(props) {
             }
         })
         const data = await response.json();
-        // console.log(data);
+        console.log(data);
         Setpatinetdata(data)
     }
 
     //doctor's info after login
-    const doclogin = async () => {
-        const response = await fetch("http://localhost:5000/api/auth/getdoc", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "auth-token": localStorage.getItem('token'),
-            }
-        })
-        const data = await response.json();
-        setlogininfo(data)
-    }
+    // const doclogin = async () => {
+    //     const response = await fetch("http://localhost:5000/api/auth/getdoc", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "auth-token": localStorage.getItem('token'),
+    //         }
+    //     })
+    //     const data = await response.json();
+    //     setlogininfo(data)
+    // }
 
     //login into the system
     const info = async () => {
@@ -83,7 +83,12 @@ export default function DataFetch(props) {
             body: JSON.stringify({ doctor_id, patient_id })
         })
         const data = await response.json();
-        // console.log(data)
+        if(response.ok){
+            fetchassignment()
+            alert(data);
+
+        }
+        else{alert(data)}
         // setassignments(data)
     }
 
@@ -139,7 +144,12 @@ export default function DataFetch(props) {
             body: JSON.stringify({ name, email, Number })
         })
         const data = await response.json()
-        alert(data.message)
+        if(response.ok){
+            getdoctors()
+            alert(data.message);
+
+        }
+        else{alert(data)}
         // console.log("assi"+data);
     }
 
@@ -154,7 +164,12 @@ export default function DataFetch(props) {
             body: JSON.stringify({ name, email, Number, Age, sex })
         })
         const data = await response.json()
-        alert(data.message)
+        if(response.ok){
+            getpatients()
+            alert(data.message);
+
+        }
+        else{alert(data)}
         // console.log("assi"+data);
     }
 
@@ -169,7 +184,12 @@ export default function DataFetch(props) {
             body: JSON.stringify({ name, email, Number, lab_name })
         })
         const data = await response.json()
-        alert(data.message)
+        if(response.ok){
+            getlabassistant()
+            alert(data.message);
+
+        }
+        else{alert(data)}
         // console.log("assi"+data);
     }
 
@@ -202,7 +222,7 @@ export default function DataFetch(props) {
         const data = await response.json()
         if (response.ok) {
             alert(data.delete);
-            // 👇 Trigger the appropriate refetch based on current view
+            // Trigger the appropriate refetch based on current view
             if (role === 'doctor') getdoctors();
             else if (role === 'patient') getpatients();
             else if (role === 'lab_assistant') getlabassistant();
@@ -222,7 +242,24 @@ export default function DataFetch(props) {
         })
         const data=await response.json();
         if(response.ok){
+            doc_get_assis();
             alert(data.message)
+        }else{
+            alert(data)
+        }
+    }
+
+    const doc_delete_assig=async (id)=>{
+        const response=await fetch(`http://localhost:5000/api/datatras/doctor/deletelab/${id}`,{
+            method: "DELETE",
+            headers:{
+                "Content-type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            }
+        })
+        const data=await response.json();
+        if(response.ok){
+            doc_get_assis()
         }else{
             alert(data)
         }
@@ -272,12 +309,29 @@ export default function DataFetch(props) {
             alert(data);
         }
     }
+    const upload_patient_data=async(formate)=>{
+        const response=await fetch("http://localhost:5000/api/datatras//lab_assistant/upload",{
+            method: "POST",
+            headers:{
+                "Content-type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            },
+            body:JSON.stringify(formate)
+        })
+        const data= await response.json();
+        if(response.ok){
+            alert(data.message)
+        }else{
+            alert(data)
+        }
+    }
     return (
         <PatientContext.Provider value={{
             patientdata, logininfo, assignments, Doctors, Patients, Assistent, doc_assistent,pati_assi_lab,labassi_pati,
             fetchdata, info, fetchassignment, createassignment, getdoctors, getpatients,
             getlabassistant, createdoctor, createlab_assistant, createPatient, deleteassignment, 
-            deleterole, doc_create_assig, doc_get_assis, labassi_get_pati
+            deleterole, doc_create_assig, doc_get_assis, labassi_get_pati,doc_get_assistant, doc_delete_assig,
+            upload_patient_data
         }}>
             {props.children}
         </PatientContext.Provider>
