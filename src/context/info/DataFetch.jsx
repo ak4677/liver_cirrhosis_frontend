@@ -14,6 +14,7 @@ export default function DataFetch(props) {
     const [doc_assistent, setdoc_assistent] = useState(intial)
     const [pati_assi_lab, setpati_assi_lab] = useState(intial)
     const [labassi_pati,setlabassi_pati]=useState(intial);
+    const [predictedData,setpredictedData]=useState(intial)
     //patient data fetching
     const fetchdata = async () => {
         const response = await fetch("http://localhost:5000/api/datatras/doctor/patients", {
@@ -325,13 +326,32 @@ export default function DataFetch(props) {
             alert(data)
         }
     }
+
+    //predict crihossis
+    const prediction=async(id,lab_results)=>{
+        const response=await fetch(`http://localhost:5000/api/datatras/${id}/labdata`,{
+            method: "POST",
+            headers:{
+                "Content-type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            },
+            body:JSON.stringify(lab_results)
+        })
+        const data=await response.json()
+        if(response.ok){
+            setpredictedData(data);
+            alert(data.success)
+        }else{
+            alert(data);
+        }
+    }
     return (
         <PatientContext.Provider value={{
-            patientdata, logininfo, assignments, Doctors, Patients, Assistent, doc_assistent,pati_assi_lab,labassi_pati,
+            patientdata, logininfo, assignments, Doctors, Patients, Assistent, doc_assistent,pati_assi_lab,labassi_pati,predictedData,
             fetchdata, info, fetchassignment, createassignment, getdoctors, getpatients,
             getlabassistant, createdoctor, createlab_assistant, createPatient, deleteassignment, 
             deleterole, doc_create_assig, doc_get_assis, labassi_get_pati,doc_get_assistant, doc_delete_assig,
-            upload_patient_data
+            upload_patient_data,prediction
         }}>
             {props.children}
         </PatientContext.Provider>
