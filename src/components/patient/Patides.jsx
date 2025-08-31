@@ -5,24 +5,52 @@ import PatientContext from '../../context/info/PatientContext';
 export default function Patides() {
     const { id } = useParams();
     const fetching = useContext(PatientContext)
-    const { predictedData, logininfo, patientdata } = fetching
+    const { fetchdata, patientdata, patient_madical_data, medical_data,prediction } = fetching
     const [patient, setpatient] = useState([]);
     useEffect(() => {
         if (localStorage.getItem('role') === "Patient") {
-            setpatient(logininfo);
+            medical_data()
         } else {
+            fetchdata()
+        }
+    }, [id])
+
+    useEffect(() => {
+        if (localStorage.getItem('role') === "Patient" && patient_madical_data) {
+            setpatient(patient_madical_data);
+        } else if (patientdata.length > 0 && id) {
+            // console.log(patientdata)
             const selected = patientdata.find(p => p._id === id)
             setpatient(selected)
         }
-    }, [])
-    console.log(patient)
+    }, [patient_madical_data, patientdata]);
+
+    const handleclick=async()=>{
+        try {
+            console.log(id)
+            console.log(patient.medical_history)
+            await prediction(id,patient.medical_history)
+            await fetchdata()
+        } catch (error) {
+            console.error("Prediction error:", error);
+            alert(error)
+        }
+        
+    }
     return (
-        <div className='flex flex-col lg:flex-row justify-center items-center m-4 gap-50 bg-blue-100'>
+        <div className='flex flex-col lg:flex-row justify-center items-center m-4 gap-70 bg-blue-100'>
             {/* Health Score Progress Bar */}
-            <div className='flex flex-col lg:flex-row justify-center items-center m-4 gap-50'>
+            <div className="flex flex-col justify-center items-center m-4 gap-30">
+                {/* Patient Name */}
+                <h1 className="text-xl font-semibold">{patient.name}</h1>
+
                 {/* Health Score Progress Bar */}
                 <div className="relative mt-3">
-                    <svg className="rotate-[135deg] size-40 lg:size-56" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                        className="rotate-[135deg] size-40 lg:size-56"
+                        viewBox="0 0 36 36"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
                         {/* Background circle */}
                         <circle
                             cx="18"
@@ -47,7 +75,7 @@ export default function Patides() {
                             strokeLinecap="round"
                         ></circle>
 
-                        {/* Ok percentage (offset by safe) */}
+                        {/* Ok percentage */}
                         <circle
                             cx="18"
                             cy="18"
@@ -60,7 +88,7 @@ export default function Patides() {
                             strokeLinecap="round"
                         ></circle>
 
-                        {/* Danger percentage (offset by safe + ok) */}
+                        {/* Danger percentage */}
                         <circle
                             cx="18"
                             cy="18"
@@ -69,21 +97,32 @@ export default function Patides() {
                             className="stroke-current text-red-500"
                             strokeWidth="2"
                             strokeDasharray={`${patient.risk_percentages?.[2] || 0} 100`}
-                            strokeDashoffset={`-${(patient.risk_percentages?.[0] || 0) + (patient.risk_percentages?.[1] || 0)}`}
+                            strokeDashoffset={`-${(patient.risk_percentages?.[0] || 0) +
+                                (patient.risk_percentages?.[1] || 0)
+                                }`}
                             strokeLinecap="round"
                         ></circle>
                     </svg>
 
-                    {/* Center text: Prediction */}
+                    {/* Center text */}
                     <div className="absolute top-1/2 start-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-                        <span className={`text-2xl font-bold ${patient.prediction === 0 ? "text-green-600" :
-                                patient.prediction === 1 ? "text-yellow-600" :
-                                    patient.prediction === 2 ? "text-red-600" :
-                                        "text-gray-400"
-                            }`}>
-                            {patient.prediction === 0 ? "Safe" :
-                                patient.prediction === 1 ? "Ok" :
-                                    patient.prediction === 2 ? "Danger" : "N/A"}
+                        <span
+                            className={`text-2xl font-bold ${patient.prediction === 0
+                                    ? "text-green-600"
+                                    : patient.prediction === 1
+                                        ? "text-yellow-600"
+                                        : patient.prediction === 2
+                                            ? "text-red-600"
+                                            : "text-gray-400"
+                                }`}
+                        >
+                            {patient.prediction === 0
+                                ? "Safe"
+                                : patient.prediction === 1
+                                    ? "Ok"
+                                    : patient.prediction === 2
+                                        ? "Danger"
+                                        : "N/A"}
                         </span>
                         <span className="text-sm dark:text-black dark:dark:text-white block">
                             Overall Status
@@ -91,11 +130,12 @@ export default function Patides() {
                     </div>
                 </div>
 
-                {/* Patient Information Form */}
-                <form className="w-full max-w-lg">
-                    {/* keep your form UI same here */}
-                </form>
+                {/* Button */}
+                {localStorage.getItem('role')==='Doctor'&&<button onClick={handleclick} className="px-4 py-2 mt-4 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700">
+                    Predict
+                </button>}
             </div>
+
 
 
             {/* Patient Information Form */}

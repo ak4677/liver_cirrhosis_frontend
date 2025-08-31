@@ -15,6 +15,7 @@ export default function DataFetch(props) {
     const [pati_assi_lab, setpati_assi_lab] = useState(intial)
     const [labassi_pati,setlabassi_pati]=useState(intial);
     const [predictedData,setpredictedData]=useState(intial)
+    const [patient_madical_data,setpatient_madical_data]=useState(intial)
     //patient data fetching
     const fetchdata = async () => {
         const response = await fetch("http://localhost:5000/api/datatras/doctor/patients", {
@@ -22,26 +23,12 @@ export default function DataFetch(props) {
             headers: {
                 "Content-Type": "application/json",
                 "auth-token": localStorage.getItem('token')
-                // "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDg1MTI4NWQ4Y2UyN2JkNDg0OTI2MSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0MjIzNjEyN30.wg0ycv5T1mm8U9nqXUitdvwIxx2rySXOL0jlin9I0mA",
             }
         })
         const data = await response.json();
-        console.log(data);
+        // console.log("fetching"+data);
         Setpatinetdata(data)
     }
-
-    //doctor's info after login
-    // const doclogin = async () => {
-    //     const response = await fetch("http://localhost:5000/api/auth/getdoc", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "auth-token": localStorage.getItem('token'),
-    //         }
-    //     })
-    //     const data = await response.json();
-    //     setlogininfo(data)
-    // }
 
     //login into the system
     const info = async () => {
@@ -345,13 +332,32 @@ export default function DataFetch(props) {
             alert(data);
         }
     }
+
+    //patient get its own madical data
+    const medical_data=async()=>{
+        const responce=await fetch("http://localhost:5000/api/datatras/patient",{
+            method: "GET",
+            headers:{
+                "Content-type": "application/json",
+                "auth-token": localStorage.getItem('token')
+            }
+        })
+        const data=await responce.json()
+        if(responce.ok){
+            setpatient_madical_data(data);
+            console.log(data)
+        }else{
+            alert(data)
+        }
+    }
     return (
         <PatientContext.Provider value={{
-            patientdata, logininfo, assignments, Doctors, Patients, Assistent, doc_assistent,pati_assi_lab,labassi_pati,predictedData,
+            patientdata, logininfo, assignments, Doctors, Patients, Assistent, doc_assistent,pati_assi_lab,labassi_pati,
+            predictedData,patient_madical_data,
             fetchdata, info, fetchassignment, createassignment, getdoctors, getpatients,
             getlabassistant, createdoctor, createlab_assistant, createPatient, deleteassignment, 
             deleterole, doc_create_assig, doc_get_assis, labassi_get_pati,doc_get_assistant, doc_delete_assig,
-            upload_patient_data,prediction
+            upload_patient_data, prediction, medical_data
         }}>
             {props.children}
         </PatientContext.Provider>
